@@ -77,6 +77,10 @@ class PSExtract:
             return self.get_filmwork_ids_by_genres(objects_ids) if objects_ids else None
 
     def get_filmworks_data(self, filmwork_ids: Tuple[str]) -> list:
+        if len(filmwork_ids) == 1:
+            where_condition = f"WHERE fw.id = '{filmwork_ids[0]}' "
+        else:
+            where_condition = f'WHERE fw.id IN {filmwork_ids} '
         query = (
             'SELECT fw.id as fw_id, fw.title, fw.description, '
             'fw.rating, fw.type, fw.created, fw.modified, '
@@ -96,7 +100,7 @@ class PSExtract:
             'LEFT JOIN content.person p ON p.id = pfw.person_id '
             'LEFT JOIN content.genre_film_work gfw ON gfw.film_work_id = fw.id '
             'LEFT JOIN content.genre g ON g.id = gfw.genre_id '
-            f'WHERE fw.id IN {filmwork_ids} '
+            f'{where_condition}'
             'GROUP BY fw.id;'
         )
         data = self.extract_data(query, self.curs)

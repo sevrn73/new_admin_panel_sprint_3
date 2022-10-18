@@ -130,5 +130,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+log.txt
+.log.txt
+
+etl/state.json
+/etl/state.json
+
 docker_compose/simple_project/pgdata/
 /docker_compose/simple_project/pgdata

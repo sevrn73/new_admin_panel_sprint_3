@@ -1,5 +1,3 @@
-import os
-import logging
 import time
 from contextlib import closing
 from datetime import datetime
@@ -10,12 +8,10 @@ from load import ESLoad
 from transform import parse_from_postgres_to_es
 from extract import PSExtract
 from state import JsonFileStorage, State
+from logger import logger
+from config import DSL, ES
 
 load_dotenv()
-logging.basicConfig(
-    filename='log.txt',
-)
-logger = logging.getLogger('loader')
 
 
 def main(dsl: dict, es_connect: dict):
@@ -59,18 +55,6 @@ def main(dsl: dict, es_connect: dict):
 
 
 if __name__ == '__main__':
-
-    dsl = {
-        'dbname': os.environ.get('POSTGRES_DB'),
-        'user': os.environ.get('POSTGRES_USER'),
-        'password': os.environ.get('POSTGRES_PASSWORD'),
-        'host': 'db',
-        'port': 5432,
-    }
-
-    es_connect = {
-        'es_host': os.environ.get('ES_HOST'),
-        'es_user': os.environ.get('ES_USER'),
-        'es_password': os.environ.get('ES_PASSWORD'),
-    }
+    dsl = DSL().dict()
+    es_connect = ES().dict()
     main(dsl, es_connect)
