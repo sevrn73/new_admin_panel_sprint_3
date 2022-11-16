@@ -38,7 +38,6 @@ class PSExtract:
         query = (
             "SELECT fw.id as fw_id, fw.title, fw.description, "
             "fw.rating, fw.type, fw.created, fw.modified, "
-            # "g.modified as g_m, p.modified as p_m, "
             "COALESCE ( \
                 json_agg( \
                     DISTINCT jsonb_build_object( \

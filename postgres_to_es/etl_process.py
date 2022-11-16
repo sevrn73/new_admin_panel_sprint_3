@@ -7,8 +7,7 @@ from state import State
 
 
 class EtlProcess:
-    MODEL_NAMES = ['film_work']#, 'person', 'genre']
-    MODEL_MODIFIED_KEY = {'film_work': 'modified', 'person': 'p_m', 'genre': 'g_m'}
+    MODEL_NAMES = ['film_work', 'person', 'genre']
     def check_and_update(pg_conn: _connection, curs: DictCursor, es_connect: dict, state: State):
         last_modified = state.get_state("last_modified")
         offset = state.get_state("offset")
@@ -23,7 +22,7 @@ class EtlProcess:
 
                     postgres_extractor.offset += len(filmwork_data)
                     state.set_state("offset", postgres_extractor.offset)
-                    state.set_state('last_modified', filmwork_data[-1][EtlProcess.MODEL_MODIFIED_KEY[model_name]].strftime('%Y-%m-%d'))
+                    state.set_state('last_modified', filmwork_data[-1]['modified'].strftime('%Y-%m-%d'))
                 else:
                     postgres_extractor.offset = 0
                     state.set_state("offset", 0)
