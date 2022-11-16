@@ -10,8 +10,6 @@ services:
       - ./app/example/.env
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
-    depends_on:
-      - elasticsearch
       
   service:
     build: app
@@ -25,7 +23,7 @@ services:
       - ./app/example/.env
     depends_on:
       - db
-      - etl
+      - elasticsearch
 
   nginx:
     image: nginx
@@ -65,7 +63,7 @@ services:
     env_file:
       - ./app/example/.env
     depends_on:
-      - elasticsearch
+      - service
       
 volumes:
   postgres_volume:

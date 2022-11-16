@@ -22,4 +22,8 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT ["uwsgi", "--strict", "--ini", "uwsgi.ini"]
+RUN chmod +x /opt/app/docker-entrypoint.sh
+RUN chmod +x /opt/app/uwsgi_worker.sh
+
+ENTRYPOINT [ "/opt/app/docker-entrypoint.sh" ]
+
